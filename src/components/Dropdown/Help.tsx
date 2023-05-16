@@ -43,14 +43,14 @@ export const Help: FC = () => {
             Displays the length of the list.
           </Li>
           <Li>
-            <CrossCircledIcon width={20} height={20} color={red.red11} />
-            <ArrowRightIcon width={20} height={20} color={red.red11} /> &nbsp;
-            Removes an element based on the given index.
-          </Li>
-          <Li>
             <ArrowRightIcon width={20} height={20} color={red.red11} />
             <CrossCircledIcon width={20} height={20} color={red.red11} /> &nbsp;
             Removes the last element on the list.
+          </Li>
+          <Li>
+            <CrossCircledIcon width={20} height={20} color={red.red11} />
+            <ArrowRightIcon width={20} height={20} color={red.red11} /> &nbsp;
+            Removes an element based on the given index.
           </Li>
         </Ul>
       </PopoverFlex>
