@@ -1,14 +1,19 @@
-import { orange, sky, skyDark } from "@radix-ui/colors";
+import { orange, skyDark } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
 export const Layout = styled('main', {
+  width: '100%',
+  margin: '0 auto',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-evenly',
   textAlign: 'left',
+  gap: '1rem',
   alignContent: 'center',
   placeItems: 'center',
+  '@md': {
+    width: '50%',
+  }
 });
 
 export const Ul = styled('ul', {
@@ -23,6 +28,8 @@ export const Li = styled('li', {
 
 export const Header = styled('header', {
   textAlign: 'center',
+  justifySelf: 'center',
+  alignSelf: 'center',
   fontSize: 25,
   color: orange.orange5,
   fontWeight: 'bold',
@@ -35,13 +42,10 @@ export const Header = styled('header', {
 
 export const SmallText = styled('small', {
   textAlign: 'left',
-  alignSelf: 'start',
-  paddingLeft: '.7rem',
   fontSize: '1rem',
   color: 'white',
   '@md': {
     paddingTop: '.8rem',
-    paddingLeft: '4rem',
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
   }
 });

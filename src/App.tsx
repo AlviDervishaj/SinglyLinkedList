@@ -1,124 +1,145 @@
 // React
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 
 // Radix
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { crimson, skyDark } from "@radix-ui/colors";
+import { green, mauve } from "@radix-ui/colors";
 
 // Components
-import { LinkedList, LinkedListRef } from "./components/LinkedList";
+import { LinkedList } from "./components/LinkedList";
+import { Header } from "./components/App";
 import { Scroll } from "./components/Scroll";
-import { Box, Layout, LinkedListLayout, PopoverArrow, PopoverClose, PopoverFlex, PopoverText } from "./components/Stitches";
-import { Header, SmallText, Ul, Li } from "./components/Stitches/App";
-import { Button } from "./components/Stitches/LinkedList";
-import { Fieldset, Input, Label, Text } from "./components/Stitches/Popover";
-import { Popover } from "./components/Popover";
+import { Box, Layout, LinkedListLayout } from "./components/Stitches";
+import { Text } from "./components/Stitches/Popover";
+import { AppendButton, Peek, PrependButton, PeekElement, PopButton, Length, } from "./components/Dropdown";
 
 // Utils
-import { Node, LinkedList as SinglyLinkedList } from "./utils/LinkedList";
+import { LinkedList as SinglyLinkedList } from "./utils/LinkedList";
+import { PopIndex } from "./components/Dropdown/PopIndex";
+
+type T = string;
+const linkedList = new SinglyLinkedList<T>();
+
+const boxStyling = {
+  width: '90%',
+  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'center',
+  '@md': {
+    width: '100%',
+  }
+}
 
 function App() {
-  const [linkedList, setLinkedList] = useState<SinglyLinkedList<string>>(new SinglyLinkedList<string>());
-  const [nodeDataToSearch, setNodeDataToSearch] = useState<string>("");
+
+  const [nodeDataToSearch, setNodeDataToSearch] = useState<T>("");
+  const [index, setIndex] = useState<number>(0);
   const [error, setError] = useState<string>("");
-  const _ref = useRef<HTMLDivElement>(null);
+  const [message, setMessage] = useState<string>("");
+  const [counter, setCounter] = useState<number>(0);
+  // const _ref = useRef<HTMLDivElement>(null);
+
+  const clearOutput = () => {
+    setError("");
+    setMessage("");
+  }
+
+  const triggerAnimation = (index: number) => {
+    if (!index) return;
+    if (linkedList.isEmpty()) {
+      setMessage('Can not peek element if list is emty.');
+      return;
+    }
+    if (index < 0 || index > linkedList.size) {
+      setMessage('Can not peek element if list is emty.');
+      return;
+    }
+
+    if (index === 0) {
+      return;
+    }
+  }
+
+  const getLength = () => {
+    setMessage(`List contains ${linkedList.size} elements`);
+  }
+
+  const popIndex = () => {
+    if (index < 0 || linkedList.isEmpty() || index > linkedList.size) {
+      setMessage('Please enter a valid index.');
+      return;
+    }
+    clearOutput();
+    const value: string | null = linkedList.removeAt(index);
+    if (!value) {
+      setMessage('Could not remove element');
+      return;
+    }
+    setMessage(`Removed ${value} from list. `);
+    return;
+
+  }
+
+  const peekIndex = () => {
+    return;
+  }
+
+  const peek = () => {
+    triggerAnimation(0);
+    return;
+  }
+
+  // prepend Node to the beginning of the list
+  const prependElement = () => {
+    clearOutput();
+    const value: T = linkedList.prepend(`Node ${counter}`);
+    setCounter(prevCounter => prevCounter + 1);
+    setMessage(`Prepended ${value} to the beginnig of the list.`)
+  }
 
   // remove last entered element
-  const removeElementFromStack = useCallback(() => {
-    console.log({linkedList});
-    linkedList.pop();
-    setLinkedList(linkedList);
-  }, [linkedList]);
-  const peekElement = useCallback(() => {
-    console.log({linkedList});
-    if (nodeDataToSearch === "") {
-      setError("Please enter a value to search for.");
+  const popElement = () => {
+    if (linkedList.size === 0) return setMessage("List is Empty !");
+    const value: T | null = linkedList.pop();
+    if (value === null) {
+      setMessage("No Node removed from list.");
       return;
     }
-    const node = linkedList.peek();
-    if (node === null) {
-      setError(`No element with data ${nodeDataToSearch} found.`);
-      return;
-    }
-    setError("");
-    setLinkedList(linkedList);
-    return;
-  }, [linkedList]);
+    setMessage(`Removed ${value} from list.`);
+  };
 
   // add new element to stack
-  const addElementToStack = useCallback(() => {
-    // add Node to stack
-    setLinkedList(linkedList.push(`Node ${linkedList.length + 1}`));
-    console.log({linkedList});
-    return;
-  }, [linkedList]);
+  const appendElement = () => {
+    clearOutput();
+    const value: T = linkedList.append(`Node ${counter}`);
+    setCounter(prevCounter => prevCounter + 1);
+    setMessage(`Appended new ${value} to the end of the list.`);
+  }
 
   return (
     <Layout>
-      <Header>Singly Linked List</Header>
-      <SmallText>
-        This is a visual representation of a
-        "Singly Linked List".
-      </SmallText>
-      <SmallText>
-        Click the button below to get some information on how it works.
-      </SmallText>
-      <Popover text="Get more info." variant="blue">
-        <PopoverFlex css={{ flexDirection: 'column', gap: 10 }}>
-          <PopoverText css={{ marginBottom: 10 }}>Singly Linked List Visualization</PopoverText>
-          <Box css={{ fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}>
-            <Text css={{ display: 'inline', fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}>
-            Below you can see a Singly Linked List visualized.
-            It probably is empty, which can be determined by either pressing the
-            </Text>
-            <Text css={{ display: 'inline', color: skyDark.sky8, fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}> Get Length</Text> Button or checking if the visual below contains only one
-            <Text css={{ display: 'inline', fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}>
-            element which is the NULL element.
-            </Text>
-          </Box>
-          <PopoverText css={{ marginTop: 10 }}>How To Use</PopoverText>
-          <Ul>
-            <Li>Press Add to add a new element to the list.</Li>
-            <Li>Press Peek button and enter an index to see the element in that index.</Li>
-            <Li>Press Remove button to remove the last entered element of the list.</Li>
-            <Li>Press Remove Index button to remove an element at a given index.</Li>
-            <Li>Press Length button to get the length of the Singly Linked List</Li>
-          </Ul>
-        </PopoverFlex>
-        <PopoverClose aria-label="Close">
-          <Cross2Icon />
-        </PopoverClose>
-        <PopoverArrow />
-      </Popover>
-      <LinkedListLayout>
-        <Scroll>
-          {linkedList.length > 0 && linkedList.toArray().map((data: Node<string>) => <LinkedList linkedList={data} key={data.value} />)}
-          <LinkedListRef ref={_ref} />
-        </Scroll>
-      </LinkedListLayout>
-      <Box css={{ display: 'flex', width: '100%', paddingBottom: '10rem', gap: '1rem', justifyContent: 'center', paddingTop: '2rem' }}>
-        <Button onClick={addElementToStack}>Add</Button>
-
-        <Popover text="Peek" variant="white">
-          <PopoverFlex css={{ flexDirection: 'column', gap: 10 }}>
-            <PopoverText css={{ marginBottom: 10 }}>Find an Element</PopoverText>
-            <Text css={{ fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 0 }}>
-              Enter data of Element you want to find.
-            </Text>
-            <Fieldset>
-              <Label htmlFor="data">Data</Label>
-              <Input id="data" type="text" value={nodeDataToSearch} onChange={event => setNodeDataToSearch(event.target.value)} />
-            </Fieldset>
-            {error ? <Text css={{ color: crimson.crimson11, textAlign: 'center' }}>{error}</Text> : null}
-            <Button onClick={peekElement}>Peek Element</Button>
-          </PopoverFlex>
-          <PopoverClose aria-label="Close">
-            <Cross2Icon />
-          </PopoverClose>
-          <PopoverArrow />
-        </Popover>
-        <Button variant={'red'} onClick={removeElementFromStack}>Remove</Button>
-        <Popover />
+      <Header />
+      <Box css={{ display: 'flex', gap: '3rem', placeContent: 'center', flexDirection: 'column', width: '100%' }}>
+        <Box css={{ marginTop: '2rem', width: '90%', margin: '0 auto' }}>
+          <Text css={{ color: green.green9, backgroundColor: mauve.mauve1, padding: 16, fontSize: '1rem', '@md': { fontSize: '1.3rem' }, textAlign: 'center' }}>
+            {message ? message : "Messages will be displayed here."}
+          </Text>
+        </Box>
+        <LinkedListLayout>
+          <Scroll>
+            {linkedList.size > 0 && linkedList.toArray().map((value) => <LinkedList value={value} key={value} />)}
+          </Scroll>
+        </LinkedListLayout>
+        <Box css={boxStyling}>
+          <Scroll>
+            <AppendButton appendElement={appendElement} />
+            <PrependButton prependElement={prependElement} />
+            <Peek peek={peek} />
+            <Length getLength={getLength} />
+            <PeekElement peekIndex={peekIndex} nodeDataToSearch={nodeDataToSearch} setNodeDataToSearch={setNodeDataToSearch} error={error} />
+            <PopButton popElement={popElement} />
+            <PopIndex popIndex={popIndex} setIndex={setIndex} index={index} />
+          </Scroll>
+        </Box>
       </Box>
     </Layout>
   )

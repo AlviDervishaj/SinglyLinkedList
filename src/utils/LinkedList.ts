@@ -1,186 +1,225 @@
-export class Node<T> {
-  _value: T;
-  _next: Node<T> | null;
-  constructor(value: T, next: Node<T> | null) {
+export class LinkedNode<T> {
+  public _value: T;
+  public _next: LinkedNode<T> | null;
+
+  constructor(value: T) {
     this._value = value;
-    this._next = next;
+    this._next = null;
   }
-  public get value() {
+
+  // get value
+  get value() {
     return this._value;
   }
-  public set value(value: T) {
-    this._value = value;
+
+  // set value
+  set value(value: T) {
+    this._value = value
   }
-  public get next() {
+
+  // get next
+  get next() {
     return this._next;
   }
-  public set next(next: Node<T> | null) {
+
+  // set next
+  set next(next: LinkedNode<T> | null) {
     this._next = next;
   }
 }
 
 export class LinkedList<T> {
-  head: Node<T> | null;
-  tail: Node<T> | null;
-  length: number;
+  private _head: LinkedNode<T> | null;
+  private _size: number;
 
   constructor() {
-    this.head = null;
-    this.tail = null;
-    this.length = -1;
+    this._head = null;
+    this._size = 0;
   }
 
-  // add a node to the end of the list
-  push(value: T) {
-    const newNode = new Node(value, null);
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = this.head;
-      this.length++;
-      return this;
-    }
-    this.tail!._next = newNode;
-    this.tail = newNode;
-    this.length++;
-    return this;
+  // get head
+  get head() {
+    return this._head;
   }
 
-  // remove a node from the end of the list
-  pop() {
-    if (!this.head) return undefined;
-    let current = this.head;
-    let newTail = current;
-    while (current!._next) {
-      newTail = current;
-      current = current!._next;
+  // set head
+  set head(newhead: LinkedNode<T> | null) {
+    this._head = newhead;
+  }
+
+  // get size
+  get size() {
+    return this._size;
+  }
+
+  // set size
+  set size(newSize: number) {
+    this._size = newSize;
+  }
+
+  // Check if list is empty
+  public isEmpty() {
+    return this.size === 0;
+  }
+
+  // Increment list size 
+  public incrementSize() {
+    this.size++;
+  }
+
+  // Decremenet list size
+  public decrementSize() {
+    this.size--;
+  }
+
+
+  // Add new node directly after head
+  public prepend(value: T): T {
+    const node = new LinkedNode<T>(value);
+    if (this.isEmpty()) {
+      // if empty set new node as the head node of list
+      this.head = node;
     }
-    this.tail = newTail;
-    this.tail!._next = null;
-    this.length--;
-    if (this.length === 0) {
+    // list is not empty, meaning it contains a head node
+    else {
+      node.next = this.head;
+      this.head = node;
+    }
+    this.incrementSize();
+    return value;
+  }
+
+  // Add new Node to the end of the list
+  public append(value: T): T {
+    const node: LinkedNode<T> = new LinkedNode<T>(value);
+    // list is empty
+    // point head node to newly created node
+    if (this.isEmpty() || this.head === null) {
+      this.head = node;
+      this.incrementSize();
+      return value;
+    }
+    // list is not empty
+    // last node points to the newly created node
+    let current: LinkedNode<T> = this.head;
+    while (current.next) {
+      current = current.next;
+    }
+    current.next = node;
+    this.incrementSize();
+    return value;
+  }
+
+  // Remove a Node based on its value
+  public remove(value: T): T | null {
+    // value can not be found because list is empty or no head node
+    if (this.isEmpty() || !this.head) return null;
+    // value is in the head Node
+    else if (this.head.value === value) {
+      const removedNode: LinkedNode<T> = this.head;
+      this.head = this.head.next;
+      this.decrementSize();
+      return removedNode.value;
+    }
+    else {
+      let prev = this.head;
+      while (prev.next && prev.next.value !== value) {
+        prev = prev.next;
+      }
+      if (prev.next) {
+        const removedNode: LinkedNode<T> = prev.next;
+        prev.next = removedNode.next;
+        this.decrementSize();
+        return removedNode.value;
+      }
+      else return null;
+    }
+  }
+
+  // Remove Node from array at a given index
+  public removeAt(index: number): T | null {
+    // index is not valid, list is empty, or no head Node located
+    if (index < 0 || index > this.size || this.isEmpty() || !this.head) return null;
+    // index is 0
+    else if (index === 0) {
+      const removedNode: T = this.head.value;
+      this.head = this.head.next;
+      this.decrementSize();
+      return removedNode;
+    }
+    // index is valid and greater than 0
+    else {
+      let prev: LinkedNode<T> = this.head;
+      let i = 1;
+      while (prev && prev.next && i < index) {
+        prev = prev.next
+        i++;
+      }
+      // specify to compiler to process prev.next as LinkedNode type
+      const removedNode: LinkedNode<T> = prev.next as LinkedNode<T>;
+      prev.next = removedNode.next;
+      this.decrementSize();
+      return removedNode.value;
+    }
+  }
+
+  // Remove Node from the end of the list
+  public pop(): T | null {
+    if (!this.head || this.isEmpty()) return null;
+    if (this.size === 1) {
+      const removedNode: LinkedNode<T> = this.head;
       this.head = null;
-      this.tail = null;
-      this.length = -1;
+      this.decrementSize();
+      return removedNode.value;
     }
-    return current;
-  }
-
-  // remove a node from the beginning of the list
-  shift() {
-    if (!this.head) return undefined;
-    const currentHead = this.head;
-    this.head = currentHead!._next;
-    this.length--;
-    if (this.length === 0) {
-      this.tail = null;
-      this.length = -1;
-    }
-    return currentHead;
-  }
-
-  // add a node to the beginning of the list
-  unshift(value: T) {
-    const newNode = new Node(value, null);
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = this.head;
-      this.length++;
-      return this;
-    }
-    newNode._next = this.head;
-    this.head = newNode;
-    this.length++;
-    return this;
-  }
-
-  // get the value of a node at a given index
-  get(index: number) {
-    if (index < 0 || index > this.length) return null;
-    let counter = 0;
     let current = this.head;
-    while (counter < index && current) {
-      current = current._next;
-      counter++;
+    let prevNode = this.head;
+    while (current.next) {
+      prevNode = current;
+      current = current.next;
     }
-    return current;
-  }
-  // set the value of a node at a given index
-  set(index: number, value: T) {
-    const node = this.get(index);
-    if (!node) return false;
-    node.value = value;
-    return true;
+    prevNode.next = null;
+    this.decrementSize();
+    return current.value;
   }
 
-  // insert a node at a given index
-  insert(index: number, value: T) {
-    if (index < 0 || index > this.length) return false;
-    if (index === this.length) return !!this.push(value);
-    if (index === 0) return !!this.unshift(value);
-    const newNode = new Node(value, null);
-    const previous = this.get(index - 1);
-    if (!previous) return false;
-    newNode._next = previous._next;
-    previous._next = newNode;
-    this.length++;
-    return true;
-  }
-
-  // remove a node at a given index
-  remove(index: number) {
-    if (index < 0 || index > this.length) return undefined;
-    if (index === this.length - 1) return this.pop();
-    if (index === 0) return this.shift();
-    const previous = this.get(index - 1);
-    if (!previous) return undefined;
-    const removed = previous._next;
-    previous._next = removed!._next;
-    this.length--;
-    return removed;
-  }
-
-  // peek the first node
-  peek() {
-    return this.head;
-  }
-
-  // peek the last node
-  peekLast() {
-    return this.tail;
-  }
-
-  // check if the list is empty
-  isEmpty() {
-    return this.length === 0;
-  }
-
-  // convert to Array
-  toArray() {
-    let current = this.head;
-    const arr = new Array<Node<T>>(this.length);
-    while (current) {
-      arr.push(current);
-      current = current._next;
+  // Insert a new Node at a given index
+  public insertAt(value: T, index: number): T | null {
+    if (index < 0 || index > this.size || this.isEmpty() || this.head === null) return null;
+    if (index === 0) {
+      this.prepend(value);
+      return value;
     }
-    return arr;
-  }
-  
-
-
-  // reverse the list
-  reverse() {
-    let node = this.head;
-    this.head = this.tail;
-    this.tail = node;
-    let prev = null;
-    let next: Node<T> | null;
-    for (let i = 0; i < this.length; i++) {
-      next = node!._next;
-      node!._next = prev;
-      prev = node;
-      node = next;
+    // index is bigger than 0
+    const node: LinkedNode<T> = new LinkedNode<T>(value);
+    let previous: LinkedNode<T> = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      if (previous.next === null) {
+        previous.next = node;
+        return value;
+      }
+      previous = previous.next;
     }
-    return this;
+    node.next = previous.next;
+    previous.next = node;
+    this.incrementSize();
+    return value;
   }
 
+  // Convert linked list to array 
+  public toArray(): Array<T> {
+    if (this.isEmpty() || this.head === null) {
+      return []
+    }
+    else {
+      let current: LinkedNode<T> | null = this.head;
+      const values: Array<T> = [];
+      while (current) {
+        values.push(current.value);
+        current = current.next;
+      }
+      return values;
+    }
+  }
 }
+

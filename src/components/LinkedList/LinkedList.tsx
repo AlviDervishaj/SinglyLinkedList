@@ -1,30 +1,28 @@
 import { FC, Ref, forwardRef } from "react";
 import { StyledLinkedListText, StyledLinkedList, Box } from "../Stitches";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { Node } from "../../utils/LinkedList";
 
 type Props = {
-  linkedList: Node<string>,
+  value: string,
 }
 
-export const LinkedList: FC<Props> = ({ linkedList }) => {
+export const LinkedList: FC<Props> = ({ value }) => {
   const width = 30;
   const height = 30;
   return (
-    <Box css={{ display: 'flex', placeItems: 'center' }} >
+    <Box css={{ display: 'flex', placeItems: 'center', width: 100 }} >
       <StyledLinkedList>
-        <StyledLinkedListText>{linkedList._value}</StyledLinkedListText>
+        <StyledLinkedListText>{value}</StyledLinkedListText>
       </StyledLinkedList>
-      {linkedList._value !== "NULL" ? <ArrowRightIcon width={width} height={height} /> : null}
+      {value !== "NULL" ? <ArrowRightIcon width={width} height={height} /> : null}
     </Box>
   )
 }
 
 export const LinkedListRef = forwardRef(function LinkedListRef(_, ref: Ref<HTMLDivElement>) {
-  const newNode: Node<string> = new Node('NULL', null)
   return (
     <Box ref={ref} css={{ display: 'flex', placeItems: 'center' }} >
-      <LinkedList linkedList={newNode} />
+      <LinkedList value={'NULL'} />
     </Box>
   )
 });

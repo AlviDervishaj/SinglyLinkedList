@@ -10,11 +10,13 @@ export const StyledLinkedList = styled('div', {
 });
 
 export const LinkedListLayout = styled('div', {
-  width: 'fit-content',
-  maxWidth: '90%',
+  width: '90%',
   display: 'flex',
   flexDirection: 'column-reverse',
   margin: 'auto',
+  '@md': {
+    width: '100%',
+  }
 })
 
 export const StyledLinkedListText = styled('span', {
@@ -27,7 +29,7 @@ export const StyledLinkedListText = styled('span', {
 export const Button = styled('button', {
   cursor: 'pointer',
   all: 'unset',
-  display: 'inline-flex',
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 4,
@@ -36,35 +38,35 @@ export const Button = styled('button', {
   lineHeight: 1,
   fontWeight: 500,
   height: 35,
+  width: '90%',
 
   '@md': {
     fontSize: 16,
+    width: '85%',
     padding: '0 15px',
   },
 
   variants: {
     variant: {
       green: {
-        backgroundColor: green.green4,
         color: green.green11,
         '&:hover': { backgroundColor: green.green5 },
         '&:focus': { boxShadow: `0 0 0 2px ${green.green7}` },
       },
       red: {
-        backgroundColor: red.red4,
         color: red.red11,
         '&:hover': { backgroundColor: red.red5 },
         '&:focus': { boxShadow: `0 0 0 2px ${red.red7}` },
       },
       white: {
-        backgroundColor: "white",
         color: "black",
         '&:hover': { backgroundColor: sky.sky5 },
         '&:focus': { boxShadow: `0 0 0 2px ${sky.sky7}` },
       },
       blue: {
-        backgroundColor: blue.blue4,
         color: blue.blue11,
+        backgroundColor: blue.blue3,
+        width: 'fit-content',
         '&:hover': { backgroundColor: blue.blue5 },
         '&:focus': { boxShadow: `0 0 0 2px ${blue.blue7}` },
         marginTop: '1rem',
