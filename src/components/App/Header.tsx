@@ -1,4 +1,4 @@
-import { HelpButton } from "../Dropdown";
+import { Help } from "../Dropdown";
 import { Box } from "../Stitches";
 import { Header as HeaderText, SmallText } from "../Stitches/App";
 import { FC } from "react";
@@ -10,7 +10,7 @@ export const Header: FC = () => {
         <Box css={{ width: '80%', '@md': { width: '90%' } }}>
           <HeaderText>Singly Linked List</HeaderText>
         </Box>
-        <HelpButton />
+        <Help />
       </Box>
       <SmallText css={{ textAlign: 'left' }}>
         Click the little Info button above to get some more information on how it works.

@@ -3,9 +3,10 @@ import { FC } from "react";
 import { Box, PopoverFlex, PopoverText } from "../Stitches";
 import { PopoverArrow, PopoverClose, Text } from "../Stitches/Popover";
 import { Li, Ul } from "../Stitches/App";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, Cross2Icon, CrossCircledIcon, PlusCircledIcon, RulerHorizontalIcon } from "@radix-ui/react-icons";
+import { blue, green, red } from "@radix-ui/colors";
 
-export const HelpButton: FC = () => {
+export const Help: FC = () => {
   return (
     <Popover text="info" variant="blue">
       <PopoverFlex css={{ flexDirection: 'column', gap: 10 }}>
@@ -26,13 +27,31 @@ export const HelpButton: FC = () => {
         </Box>
         <PopoverText css={{ marginTop: 10 }}>How To Use</PopoverText>
         <Ul>
-          <Li>Append adds a new element at the end list.</Li>
-          <Li>Prepend adds a new element at the beginning of the list.</Li>
-          <Li>Peek highlights the head element of the list.</Li>
-          <Li>Peek Index highlights an element at a given index.</Li>
-          <Li>Length get the length of the list.</Li>
-          <Li>Pop removes the last element of the list.</Li>
-          <Li>Pop Index removes an element at a given index.</Li>
+          <Li>
+            <ArrowRightIcon width={20} height={20} color={green.green11} />
+            <PlusCircledIcon width={20} height={20} color={green.green11} /> &nbsp;
+            Adds a new element at the end list.
+          </Li>
+          <Li>
+            <PlusCircledIcon width={20} height={20} color={green.green11} />
+            <ArrowRightIcon width={20} height={20} color={green.green11} /> &nbsp;
+            Adds a new element at the beginning of the list.
+          </Li>
+          <Li>
+            <RulerHorizontalIcon width={20} height={20} color={blue.blue11} />
+            &nbsp;
+            Displays the length of the list.
+          </Li>
+          <Li>
+            <CrossCircledIcon width={20} height={20} color={red.red11} />
+            <ArrowRightIcon width={20} height={20} color={red.red11} /> &nbsp;
+            Removes an element based on the given index.
+          </Li>
+          <Li>
+            <ArrowRightIcon width={20} height={20} color={red.red11} />
+            <CrossCircledIcon width={20} height={20} color={red.red11} /> &nbsp;
+            Removes the last element on the list.
+          </Li>
         </Ul>
       </PopoverFlex>
       <PopoverClose aria-label="Close">

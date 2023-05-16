@@ -1,8 +1,9 @@
 import { Portal, Root, Trigger } from "@radix-ui/react-popover";
 import { FC, ReactNode } from "react";
 import { PopoverContent } from "../Stitches";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, CrossCircledIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "../Stitches/LinkedList";
+import { red } from "@radix-ui/colors";
 
 type Props = {
   children?: ReactNode,
@@ -16,6 +17,11 @@ export const Popover: FC<Props> = ({ children, text, variant }) => {
     switch (text.toLowerCase()) {
       case 'info':
         return <InfoCircledIcon color="black" width="20" height="20" />
+      case 'pop index':
+        return <>
+          <CrossCircledIcon width={20} height={20} color={red.red11} />
+          <ArrowRightIcon width={20} height={20} color={red.red11} />
+        </>
       default:
         return text;
     }

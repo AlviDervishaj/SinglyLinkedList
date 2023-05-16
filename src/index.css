@@ -26,10 +26,7 @@ body {
   background: linear-gradient(60deg, #2b2d42, #8d99ae);
   background-repeat: no-repeat;
 }
-
-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-animation: bounce 1s infinite;
+/* 
 
 @keyframes pulse {
   0%, 100% {
@@ -55,4 +52,4 @@ animation: bounce 1s infinite;
     transform: scale(2);
     opacity: 0;
   }
-}
+} */

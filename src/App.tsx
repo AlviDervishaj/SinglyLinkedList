@@ -10,11 +10,11 @@ import { Header } from "./components/App";
 import { Scroll } from "./components/Scroll";
 import { Box, Layout, LinkedListLayout } from "./components/Stitches";
 import { Text } from "./components/Stitches/Popover";
-import { AppendButton, Peek, PrependButton, PeekElement, PopButton, Length, } from "./components/Dropdown";
+import { Length, InsertEnd, InsertBeginning, RemoveLast } from "./components/Dropdown";
 
 // Utils
 import { LinkedList as SinglyLinkedList } from "./utils/LinkedList";
-import { PopIndex } from "./components/Dropdown/PopIndex";
+import { RemoveAt } from "./components/Dropdown/RemoveAt";
 
 type T = string;
 const linkedList = new SinglyLinkedList<T>();
@@ -30,40 +30,20 @@ const boxStyling = {
 }
 
 function App() {
-
-  const [nodeDataToSearch, setNodeDataToSearch] = useState<T>("");
   const [index, setIndex] = useState<number>(0);
-  const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [counter, setCounter] = useState<number>(0);
   // const _ref = useRef<HTMLDivElement>(null);
 
   const clearOutput = () => {
-    setError("");
     setMessage("");
-  }
-
-  const triggerAnimation = (index: number) => {
-    if (!index) return;
-    if (linkedList.isEmpty()) {
-      setMessage('Can not peek element if list is emty.');
-      return;
-    }
-    if (index < 0 || index > linkedList.size) {
-      setMessage('Can not peek element if list is emty.');
-      return;
-    }
-
-    if (index === 0) {
-      return;
-    }
   }
 
   const getLength = () => {
     setMessage(`List contains ${linkedList.size} elements`);
   }
 
-  const popIndex = () => {
+  const removeIndex = () => {
     if (index < 0 || linkedList.isEmpty() || index > linkedList.size) {
       setMessage('Please enter a valid index.');
       return;
@@ -79,17 +59,8 @@ function App() {
 
   }
 
-  const peekIndex = () => {
-    return;
-  }
-
-  const peek = () => {
-    triggerAnimation(0);
-    return;
-  }
-
   // prepend Node to the beginning of the list
-  const prependElement = () => {
+  const insertBeginning = () => {
     clearOutput();
     const value: T = linkedList.prepend(`Node ${counter}`);
     setCounter(prevCounter => prevCounter + 1);
@@ -97,7 +68,7 @@ function App() {
   }
 
   // remove last entered element
-  const popElement = () => {
+  const removeLast = () => {
     if (linkedList.size === 0) return setMessage("List is Empty !");
     const value: T | null = linkedList.pop();
     if (value === null) {
@@ -107,8 +78,8 @@ function App() {
     setMessage(`Removed ${value} from list.`);
   };
 
-  // add new element to stack
-  const appendElement = () => {
+  // add new element to linked list
+  const insertEnd = () => {
     clearOutput();
     const value: T = linkedList.append(`Node ${counter}`);
     setCounter(prevCounter => prevCounter + 1);
@@ -131,13 +102,11 @@ function App() {
         </LinkedListLayout>
         <Box css={boxStyling}>
           <Scroll>
-            <AppendButton appendElement={appendElement} />
-            <PrependButton prependElement={prependElement} />
-            <Peek peek={peek} />
+            <InsertEnd appendElement={insertEnd} />
+            <InsertBeginning insertBeginning={insertBeginning} />
             <Length getLength={getLength} />
-            <PeekElement peekIndex={peekIndex} nodeDataToSearch={nodeDataToSearch} setNodeDataToSearch={setNodeDataToSearch} error={error} />
-            <PopButton popElement={popElement} />
-            <PopIndex popIndex={popIndex} setIndex={setIndex} index={index} />
+            <RemoveLast removeLast={removeLast} />
+            <RemoveAt removeAt={removeIndex} setIndex={setIndex} index={index} />
           </Scroll>
         </Box>
       </Box>

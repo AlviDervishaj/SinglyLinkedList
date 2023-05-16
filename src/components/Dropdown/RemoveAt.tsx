@@ -8,12 +8,12 @@ import { Button } from "../Stitches/LinkedList";
 type Props = {
   setIndex: (value: number) => void,
   index: number,
-  popIndex: () => void,
+  removeAt: () => void,
 }
 
-export const PopIndex: FC<Props> = ({ setIndex, index, popIndex }) => {
+export const RemoveAt: FC<Props> = ({ setIndex, index, removeAt }) => {
   return (
-    <Popover text="Pop Index" variant="red">
+    <Popover text="pop index" variant="red">
       <PopoverFlex css={{ flexDirection: 'column', gap: 10 }}>
         <PopoverText css={{ marginBottom: 10 }}>Remove an Element</PopoverText>
         <Text>
@@ -23,7 +23,7 @@ export const PopIndex: FC<Props> = ({ setIndex, index, popIndex }) => {
           <Label htmlFor="index">Index</Label>
           <Input id="index" type="number" value={index} onChange={(event: ChangeEvent<HTMLInputElement>) => setIndex(isNaN(parseInt(event.target.value)) ? parseInt(event.target.value): 0)} />
         </Fieldset>
-        <Button variant={'red'} css={{ margin: '0 auto' }} onClick={popIndex}>Pop Index</Button>
+        <Button variant={'red'} css={{ margin: '0 auto' }} onClick={removeAt}>Remove</Button>
       </PopoverFlex>
       <PopoverClose aria-label="Close">
         <Cross2Icon />
