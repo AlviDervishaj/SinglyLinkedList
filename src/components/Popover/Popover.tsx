@@ -1,7 +1,7 @@
 import { Portal, Root, Trigger } from "@radix-ui/react-popover";
 import { FC, ReactNode } from "react";
-import { Fieldset, Input, Label, PopoverArrow, PopoverClose, PopoverContent, PopoverFlex, PopoverText, Text } from "../Stitches";
-import { Cross2Icon, InfoCircledIcon } from "@radix-ui/react-icons";
+import { PopoverContent } from "../Stitches";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "../Stitches/LinkedList";
 
 type Props = {
@@ -27,7 +27,7 @@ export const Popover: FC<Props> = ({ children, text, variant }) => {
       </Trigger>
       <Portal>
         <PopoverContent sideOffset={5} align="end">
-            {children}
+          {children}
         </PopoverContent>
       </Portal>
     </Root>
