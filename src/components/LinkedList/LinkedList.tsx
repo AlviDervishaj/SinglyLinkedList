@@ -6,7 +6,7 @@ type Props = {
   value: string,
 }
 
-export const LinkedList: FC<Props> = ({ value }) => {
+export const LinkedListWithoutRef: FC<Props> = ({ value }) => {
   const width = 30;
   const height = 30;
   return (
@@ -14,15 +14,20 @@ export const LinkedList: FC<Props> = ({ value }) => {
       <StyledLinkedList>
         <StyledLinkedListText>{value}</StyledLinkedListText>
       </StyledLinkedList>
-      {value !== "NULL" ? <ArrowRightIcon width={width} height={height} /> : null}
+      <ArrowRightIcon width={width} height={height} />
     </Box>
   )
 }
 
-export const LinkedListRef = forwardRef(function LinkedListRef(_, ref: Ref<HTMLDivElement>) {
+export const LinkedList = forwardRef(function LinkedListRef(props: Props, ref: Ref<HTMLDivElement>) {
+  const width = 30;
+  const height = 30;
   return (
-    <Box ref={ref} css={{ display: 'flex', placeItems: 'center' }} >
-      <LinkedList value={'NULL'} />
+    <Box ref={ref} css={{ display: 'flex', placeItems: 'center', width: 100 }} >
+      <StyledLinkedList>
+        <StyledLinkedListText>{props.value}</StyledLinkedListText>
+      </StyledLinkedList>
+      <ArrowRightIcon width={width} height={height} />
     </Box>
   )
 });

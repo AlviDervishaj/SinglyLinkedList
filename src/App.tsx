@@ -1,5 +1,5 @@
 // React
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 // Radix
 import { green, mauve } from "@radix-ui/colors";
@@ -30,33 +30,22 @@ const boxStyling = {
 }
 
 function App() {
-  const [index, setIndex] = useState<number>(0);
   const [message, setMessage] = useState<string>("");
   const [counter, setCounter] = useState<number>(0);
-  // const _ref = useRef<HTMLDivElement>(null);
+  const _ref = useRef<HTMLDivElement>(null);
+
+  const scroll = () => {
+    setTimeout(() => {
+      _ref.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }
 
   const clearOutput = () => {
     setMessage("");
   }
 
   const getLength = () => {
-    setMessage(`List contains ${linkedList.size} elements`);
-  }
-
-  const removeIndex = () => {
-    if (index < 0 || linkedList.isEmpty() || index > linkedList.size) {
-      setMessage('Please enter a valid index.');
-      return;
-    }
-    clearOutput();
-    const value: string | null = linkedList.removeAt(index);
-    if (!value) {
-      setMessage('Could not remove element');
-      return;
-    }
-    setMessage(`Removed ${value} from list. `);
-    return;
-
+    setMessage(`List contains ${linkedList.getSize()} elements`);
   }
 
   // prepend Node to the beginning of the list
@@ -65,6 +54,8 @@ function App() {
     const value: T = linkedList.prepend(`Node ${counter}`);
     setCounter(prevCounter => prevCounter + 1);
     setMessage(`Prepended ${value} to the beginnig of the list.`)
+    scroll();
+    return;
   }
 
   // remove last entered element
@@ -76,6 +67,8 @@ function App() {
       return;
     }
     setMessage(`Removed ${value} from list.`);
+    scroll();
+    return;
   };
 
   // add new element to linked list
@@ -84,6 +77,8 @@ function App() {
     const value: T = linkedList.append(`Node ${counter}`);
     setCounter(prevCounter => prevCounter + 1);
     setMessage(`Appended new ${value} to the end of the list.`);
+    scroll();
+    return;
   }
 
   return (
@@ -97,7 +92,7 @@ function App() {
         </Box>
         <LinkedListLayout>
           <Scroll>
-            {linkedList.size > 0 && linkedList.toArray().map((value) => <LinkedList value={value} key={value} />)}
+            {linkedList.size > 0 && linkedList.toArray().map((value) => <LinkedList value={value} key={value} ref={_ref} />)}
           </Scroll>
         </LinkedListLayout>
         <Box css={boxStyling}>
@@ -106,7 +101,7 @@ function App() {
             <InsertBeginning insertBeginning={insertBeginning} />
             <Length getLength={getLength} />
             <RemoveLast removeLast={removeLast} />
-            <RemoveAt removeAt={removeIndex} setIndex={setIndex} index={index} />
+            <RemoveAt setMessage={setMessage} linkedList={linkedList} clearOutput={clearOutput} />
           </Scroll>
         </Box>
       </Box>

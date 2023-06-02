@@ -206,6 +206,11 @@ export class LinkedList<T> {
     return value;
   }
 
+  // return size of linked list
+  public getSize(): number {
+    return this.size;
+  }
+
   // Convert linked list to array 
   public toArray(): Array<T> {
     if (this.isEmpty() || this.head === null) {

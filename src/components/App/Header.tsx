@@ -5,7 +5,7 @@ import { FC } from "react";
 
 export const Header: FC = () => {
   return (
-    <Box>
+    <Box css={{ display: 'flex', height: 'fit-content', flexDirection: 'column', width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
       <Box css={{ display: 'flex', justifyContent: 'space-evenly', alignContent: 'end', alignItems: 'center' }}>
         <Box css={{ width: '80%', '@md': { width: '90%' } }}>
           <HeaderText>Singly Linked List</HeaderText>

@@ -1,1 +1,1 @@
-export { LinkedList, LinkedListRef } from "./LinkedList";
+export { LinkedList, LinkedListWithoutRef } from "./LinkedList";
