@@ -19,7 +19,7 @@ export const Help: FC = () => {
             one direction from head to the last node (tail).
           </Text>
         </Box>
-        <PopoverText css={{ marginBottom: 10 }}>Feedback</PopoverText>
+        <PopoverText css={{ marginTop: 20 }}>Feedback</PopoverText>
         <Box css={{ fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}>
           <Text css={{ display: 'inline', fontWeight: "400", letterSpacing: 1, wordBreak: 'break-word', wordSpacing: 5 }}>
             Any messages will appear in the box above where Linked List is displayed.

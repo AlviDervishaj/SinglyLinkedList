@@ -1,7 +1,10 @@
+// React
+import { FC } from "react";
+
+// Stitches
 import { Help } from "../Dropdown";
 import { Box } from "../Stitches";
 import { Header as HeaderText, SmallText } from "../Stitches/App";
-import { FC } from "react";
 
 export const Header: FC = () => {
   return (
